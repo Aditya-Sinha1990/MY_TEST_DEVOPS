@@ -34,3 +34,19 @@ jobs:
           S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
         run: |
           python upload_logs.py
+
+      # Step 5: Install AWS CLI    
+      - name: Configure AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
+
+      # Step 6: Run the bash script
+      - name: Execute the open ports script
+        run: |
+          chmod +x ./check_open_ports.sh
+          ./check_open_ports.sh
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
