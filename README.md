@@ -1,2 +1,2 @@
 # MY_TEST_DEVOPS
-Simple Java Project Continous Deployment
+Simple Python Project Continous Deployment Using Github Actions
