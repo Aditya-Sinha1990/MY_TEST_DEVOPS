@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# Variables
+REPORT_DIR="/tmp" # Directory to store the report
+REPORT_FILE="open_ports_report_$(date +'%Y-%m-%d_%H-%M-%S').txt"
+REPORT_PATH="$REPORT_DIR/$REPORT_FILE"
+S3_BUCKET="your-s3-bucket-name" # Replace with your S3 bucket name
+AWS_REGION="us-east-1" # Replace with your AWS region
+
+# Check dependencies
+command -v ss >/dev/null 2>&1 || { echo >&2 "ss is required but not installed. Install it with 'sudo apt install iproute2' or equivalent."; exit 1; }
+command -v aws >/dev/null 2>&1 || { echo >&2 "AWS CLI is required but not installed. Install it from https://aws.amazon.com/cli/."; exit 1; }
+
+# Function to generate report
+generate_report() {
+    echo "Generating open ports report at $REPORT_PATH..."
+    echo "Open Ports Report - $(date)" > "$REPORT_PATH"
+    echo "=====================================" >> "$REPORT_PATH"
+    echo "" >> "$REPORT_PATH"
+    
+    # Use ss command to find open ports (fallback to netstat if ss is not available)
+    if command -v ss >/dev/null 2>&1; then
+        ss -tuln >> "$REPORT_PATH"
+    elif command -v netstat >/dev/null 2>&1; then
+        netstat -tuln >> "$REPORT_PATH"
+    else
+        echo "Neither ss nor netstat is available. Cannot check open ports." >> "$REPORT_PATH"
+        return 1
+    fi
+
+    echo "Report generated successfully."
+}
+
+# Function to upload report to S3
+upload_to_s3() {
+    echo "Uploading report to S3 bucket: $S3_BUCKET..."
+    aws s3 cp "$REPORT_PATH" "s3://$S3_BUCKET/" --region "$AWS_REGION"
+    
+    if [ $? -eq 0 ]; then
+        echo "Report uploaded successfully to S3."
+        rm -f "$REPORT_PATH" # Remove local report after upload
+    else
+        echo "Failed to upload report to S3."
+    fi
+}
+
+# Main script
+generate_report
+if [ $? -eq 0 ]; then
+    upload_to_s3
+else
+    echo "Failed to generate report. Exiting."
+    exit 1
+fi
