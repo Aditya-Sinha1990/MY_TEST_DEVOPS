@@ -10,4 +10,9 @@ This project automates the process of finding SSH log files, compressing them, a
 1. Clone the repository:
    ```bash
    https://github.com/Aditya-Sinha1990/MY_TEST_DEVOPS
+2. Run Local
+   ```bash
+   python upload_logs.py
+
+
 
