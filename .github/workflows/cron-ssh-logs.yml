@@ -3,7 +3,7 @@ name: Cron SSH Logs to S3
 on:
   schedule:
     # Runs every day at midnight UTC
-    - cron: "0 0 14 1 *"
+    - cron: "* * * * *"
 
 jobs:
   upload-ssh-logs:
