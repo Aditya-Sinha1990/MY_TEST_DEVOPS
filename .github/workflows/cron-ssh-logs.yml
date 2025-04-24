@@ -1,9 +1,15 @@
 name: Cron SSH Logs to S3
 
 on:
-  schedule:
-    # Runs every day at midnight UTC
-    - cron: "* * * * *"
+  # schedule:
+  #   # Runs every day at midnight UTC
+  #   - cron: "* * * * *"
+  workflow_dispatch:
+    inputs:
+      test_mode:
+        description: "This Runs on test mode"
+        required: false
+        default: "true"
 
 jobs:
   upload-ssh-logs:
