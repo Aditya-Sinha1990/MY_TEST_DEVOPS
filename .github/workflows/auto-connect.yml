@@ -5,15 +5,18 @@ on:
 
 jobs:
   ssh-to-pod:
-    runs-on: ubuntu-latest
+    runs-on: adi-self-hosted
     steps:
-      - name: Add SSH private key
+      - name: Simple Test of Shell
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H <POD_IP_OR_HOSTNAME> >> ~/.ssh/known_hosts
+          pwd
+      # - name: Add SSH private key
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      #     chmod 600 ~/.ssh/id_rsa
+      #     ssh-keyscan -H <POD_IP_OR_HOSTNAME> >> ~/.ssh/known_hosts
 
-      - name: SSH into pod
-        run: |
-          ssh root@<POD_IP_OR_HOSTNAME> "echo 'Connected from GitHub Actions!'"
+      # - name: SSH into pod
+      #   run: |
+      #     ssh root@<POD_IP_OR_HOSTNAME> "echo 'Connected from GitHub Actions!'"
