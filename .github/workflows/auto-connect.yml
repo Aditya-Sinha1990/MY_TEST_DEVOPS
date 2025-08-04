@@ -5,7 +5,7 @@ on:
 
 jobs:
   ssh-to-pod:
-    runs-on: adi-self-hosted
+    runs-on: adi-self-hosted-label
     steps:
       - name: Simple Test of Shell
         run: |
