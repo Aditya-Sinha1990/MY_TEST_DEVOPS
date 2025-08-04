@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Simple Test of Shell
         run: |
-          pwd
+          ls
       # - name: Add SSH private key
       #   run: |
       #     mkdir -p ~/.ssh
