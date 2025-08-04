@@ -1,0 +1,19 @@
+name: SSH to Pod
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh-to-pod:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add SSH private key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H <POD_IP_OR_HOSTNAME> >> ~/.ssh/known_hosts
+
+      - name: SSH into pod
+        run: |
+          ssh root@<POD_IP_OR_HOSTNAME> "echo 'Connected from GitHub Actions!'"
