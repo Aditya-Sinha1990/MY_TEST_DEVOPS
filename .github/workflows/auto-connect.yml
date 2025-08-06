@@ -11,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Simple Test of Shell
+        env:
+          SECRET: ${{ secrets.USER1_PASSWORD }}
         run: |
           echo "In file Env: $JUMPHOST"
           echo "variable from REPO: ${{ vars.USER1_VARIABLE}}"
           echo "Secret from REPO: ${{ secrets.USER1_PASSWORD}}"
-          echo "::add-mask::$SECRET"
-        env:
-          SECRET: ${{ secrets.USER1_PASSWORD }}
+          echo "my secret $SECRET"
       # - name: Add SSH private key
       #   run: |
       #     mkdir -p ~/.ssh
