@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 env:
-  jumphost: "aws-jumpost-name1"
+  JUMPHOST: "aws-jumpost-name1"
 
 jobs:
   ssh-to-pod:
@@ -12,7 +12,9 @@ jobs:
     steps:
       - name: Simple Test of Shell
         run: |
-          echo "${{ jumphost  }}"
+          echo "In file Env: $JUMPHOST"
+          echo "variable from REPO: {{ vars.USER1_VARIABLE}}"
+          echo "Secret from REPO: {{ secrets.USER1_PASSWORD}}"
       # - name: Add SSH private key
       #   run: |
       #     mkdir -p ~/.ssh
