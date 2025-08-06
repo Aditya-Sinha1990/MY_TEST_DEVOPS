@@ -3,13 +3,16 @@ name: SSH to Pod
 on:
   workflow_dispatch:
 
+env:
+  jumphost: "aws-jumpost-name1"
+
 jobs:
   ssh-to-pod:
-    runs-on: adi-self-hosted-label
+    runs-on: ubuntu-latest
     steps:
       - name: Simple Test of Shell
         run: |
-          ls
+          echo "${{ jumphost  }}"
       # - name: Add SSH private key
       #   run: |
       #     mkdir -p ~/.ssh
